@@ -28,6 +28,8 @@ type MediaUploadData = {
 	caption?: string
 	ptt?: boolean
 	seconds?: number
+	width?: number
+	height?: number
 	gifPlayback?: boolean
 	fileName?: string
 	jpegThumbnail?: string
@@ -138,7 +140,9 @@ export const prepareWAMessageMedia = async(
 		(async() => {
 			try {
 				if(requiresThumbnailComputation) {
-					uploadData.jpegThumbnail = await generateThumbnail(bodyPath, mediaType as any, options)
+					uploadData.jpegThumbnail = await generateThumbnail(bodyPath, mediaType as any, options);
+					uploadData.height = (message as any).height;
+					uploadData.width =  (message as any).width;
 					logger?.debug('generated thumbnail')
 				}
 
